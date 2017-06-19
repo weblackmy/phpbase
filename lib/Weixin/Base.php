@@ -2,7 +2,7 @@
 namespace phpbase\lib\Weixin;
 /**
  * 微信对接基础类
- * User: QianLei
+ * User: qianlei
  * Date: 17/06/2017
  */
 class Base
@@ -14,12 +14,12 @@ class Base
 
     /**
      * Base constructor.
-     * @param array $config ['appid', 'token', 'encodingAESKey']
+     * @param array $config ['appId', 'token', 'encodingAESKey']
      */
     public function __construct($config = [])
     {
         if (empty($config)) {
-            $config = [];
+            $config = $this->getConfig();
         }
         $this->config = $config;
     }
@@ -30,7 +30,12 @@ class Base
      */
     private function getConfig()
     {
-        return [];
+        if (!$this->config) {
+            if (file_exists(__DIR__ . '/config/config.php')) {
+                $this->config = require __DIR__ . '/config/config.php';
+            }
+        }
+        return $this->config;
     }
 
     /**

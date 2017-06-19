@@ -2,7 +2,7 @@
 namespace phpbase\lib\Weixin;
 /**
  * 消息管理
- * User: QianLei
+ * User: qianlei
  * Date: 17/06/2017
  */
 class Message extends Base
