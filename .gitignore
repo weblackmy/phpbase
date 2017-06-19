@@ -3,3 +3,6 @@
 
 #mac
 .Ds_Store
+
+#phpbase
+lib/Weixin/config/config.php
