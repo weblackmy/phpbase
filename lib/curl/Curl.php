@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\Curl;
+namespace phpbase\lib\curl;
 
 /**
  * Class Curl

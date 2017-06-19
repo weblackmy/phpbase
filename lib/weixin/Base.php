@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\Weixin;
+namespace phpbase\lib\weixin;
 /**
  * 微信对接基础类
  * User: qianlei

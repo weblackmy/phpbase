@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\Weixin;
+namespace phpbase\lib\weixin;
 /**
  * 账号管理
  * User: qianlei
