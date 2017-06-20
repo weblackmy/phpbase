@@ -1,9 +1,10 @@
 <?php
 namespace phpbase\lib\weixin;
+
 /**
- * 微信对接基础类
- * User: qianlei
- * Date: 17/06/2017
+ * Class Base
+ * @author qian lei <weblackmy@gmail.com>
+ * @package phpbase\lib\curl
  */
 class Base
 {
@@ -13,15 +14,46 @@ class Base
     protected $config = [];
 
     /**
-     * Base constructor.
-     * @param array $config ['appId', 'token', 'encodingAESKey']
+     * @var string
      */
-    public function __construct($config = [])
+    protected $accessToken;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * Base constructor.
+     * @param bool $initAccessToken
+     */
+    public function __construct($initAccessToken = true)
     {
-        if (empty($config)) {
-            $config = $this->getConfig();
+        $this->config = $this->getConfig();
+        $this->request = new Request($this->config);
+        if ($initAccessToken) {
+            $this->getAccessToken();
         }
-        $this->config = $config;
+    }
+
+    /**
+     * 加密消息
+     */
+    protected function encryptMsg()
+    {}
+
+    /**
+     * 解密消息
+     */
+    protected function decryptMsg()
+    {}
+
+    /**
+     * @return string
+     */
+    protected function getAccessToken()
+    {
+        $this->request->getAccessToken();
     }
 
     /**
@@ -37,16 +69,4 @@ class Base
         }
         return $this->config;
     }
-
-    /**
-     * 加密消息
-     */
-    protected function encryptMsg()
-    {}
-
-    /**
-     * 解密消息
-     */
-    protected function decryptMsg()
-    {}
 }

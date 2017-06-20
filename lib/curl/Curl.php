@@ -3,7 +3,8 @@ namespace phpbase\lib\curl;
 
 /**
  * Class Curl
- * @package phpbase\lib\Curl
+ * @author qian lei <weblackmy@gmail.com>
+ * @package phpbase\lib\curl
  */
 class Curl
 {
@@ -42,15 +43,34 @@ class Curl
      * @var array
      */
     protected $errorInfo = [];
-    
+
+    /**
+     * @var string 如果设置, 则不需要在get|post时指定完整url, 此参数是为了开发便利性
+     */
+    protected $urlPrefix;
+
+    /**
+     * @var bool 对于响应结果, 是否需要解析成json
+     */
+    protected $jsonResult = false;
+
     /**
      * Curl constructor.
+     * @param array $options
      */
-	public function __construct()
+    public function __construct($options = [])
     {
         $this->init();
+        foreach ($options as $k => $v) {
+            if (property_exists($this, $k)) {
+                $this->$k = $v;
+            }
+        }
     }
 
+    /**
+     * init
+     */
     public function init()
     {
         $this->returnInfo = [];
@@ -106,6 +126,15 @@ class Curl
     }
 
     /**
+     * curl error
+     * @return array
+     */
+    public function getError()
+    {
+        return $this->errorInfo;
+    }
+
+    /**
      * @param string $url
      * @param string|array $params
      * @param array $options
@@ -116,6 +145,9 @@ class Curl
     protected function exec($url, $params, $options, $timeout, $type = 'GET')
     {
         $this->init();
+        if ($this->urlPrefix && !preg_match('/^http(s?):\/\//', $url)) {
+            $url = rtrim($this->urlPrefix, '/') . '/' . ltrim($url, '/');
+        }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -220,15 +252,6 @@ class Curl
         }
 
         curl_close($ch);
-        return $result;
-    }
-
-    /**
-     * curl error
-     * @return array
-     */
-    public function getError()
-    {
-        return $this->errorInfo;
+        return $this->jsonResult ? json_decode($result, true) : $result;
     }
 }

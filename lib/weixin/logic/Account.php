@@ -1,9 +1,11 @@
 <?php
-namespace phpbase\lib\weixin;
+namespace phpbase\lib\weixin\logic;
+
+use phpbase\lib\weixin\Base;
 /**
- * 账号管理
- * User: qianlei
- * Date: 17/06/2017
+ * Class Account 账号管理
+ * @author qian lei <weblackmy@gmail.com>
+ * @package phpbase\lib\curl
  */
 class Account extends Base
 {
