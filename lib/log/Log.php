@@ -21,7 +21,7 @@ class Log
     /**
      * @var string
      */
-    private static $logFileExt = '.txt';
+    private static $logFileExt = '.log';
 
     /**
      * @var bool
@@ -37,6 +37,11 @@ class Log
      * @var bool
      */
     private static $mkdirRecursive = false;
+
+    /**
+     * @var bool
+     */
+    private static $debugMode = false;
 
     /**
      * @param string $dir
@@ -75,6 +80,14 @@ class Log
     }
 
     /**
+     * @param bool $mode
+     */
+    public static function setDebugMode($mode)
+    {
+        self::$debugMode = $mode;
+    }
+
+    /**
      * @param string $key
      * @param mixed $data
      * @return bool|int
@@ -91,7 +104,7 @@ class Log
      */
     public static function debug($key, $data)
     {
-        return self::log($key, $data, 'debug');
+        return self::$debugMode ? self::log($key, $data, 'debug') : true;
     }
 
     /**
