@@ -6,9 +6,20 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit3f2e03be225ec5fa643a81537dc59a4e
 {
+    public static $prefixesPsr0 = array (
+        'G' => 
+        array (
+            'Gregwar\\Cache' => 
+            array (
+                0 => __DIR__ . '/..' . '/gregwar/cache',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixesPsr0 = ComposerStaticInit3f2e03be225ec5fa643a81537dc59a4e::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

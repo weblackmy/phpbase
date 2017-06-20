@@ -4,5 +4,8 @@
 			"type": "composer",
 			"url": "https://packagist.phpcomposer.com"
 		}
+	},
+	"require": {
+		"gregwar/cache": "1.0.*"
 	}
 }
