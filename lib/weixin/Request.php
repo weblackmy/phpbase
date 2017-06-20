@@ -12,17 +12,27 @@ class Request
     /**
      * @var array 公账号基础配置
      */
-    protected $config = [];
+    protected $config;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $error = [];
+    protected $accessToken;
 
     /**
      * @var Curl
      */
     protected $curl;
+
+    /**
+     * @var int
+     */
+    protected $errCode;
+
+    /**
+     * @var string
+     */
+    protected $errMsg;
 
     /**
      * Request constructor.
@@ -38,11 +48,19 @@ class Request
     }
 
     /**
-     * @return array
+     * @return int
      */
-    public function getError()
+    public function getErrCode()
     {
-        return $this->error;
+        return $this->errCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrMsg()
+    {
+        return $this->errMsg;
     }
 
     /**
@@ -60,6 +78,34 @@ class Request
     }
 
     /**
+     * 初始获取accessToken后, 后续调用需要用到此token(因为Reqeust类中的getAccessToken不负责缓存token,所以后续调用方需要传值进来)
+     * @param string $token
+     */
+    public function setAccessToken($token)
+    {
+        $this->accessToken = $token;
+    }
+    /***************************************************** 账号管理 ****************************************************/
+    /**
+     * 生成带参数的二维码--创建二维码ticket
+     * @param string $actionName QR_SCENE => 临时, QR_LIMIT_SCENE => 永久, QR_LIMIT_STR_SCENE => 永久的字符串参数值
+     * @param int|string $sceneVal 场景值
+     * @param int $expireSeconds 仅当$actionName为QR_SCENE时有效, 最大不超过24*3600*30秒
+     * @return array|bool|string
+     */
+    public function qrCodeTicketCreate($actionName, $sceneVal, $expireSeconds = 24*3600*30)
+    {
+        $params = [
+            'action_name' => $actionName,
+            'expire_seconds' => $expireSeconds,
+            'action_info' => [
+                $actionName == 'QR_LIMIT_STR_SCENE' ? 'scene_str' : 'scene_id' => $sceneVal,
+            ],
+        ];
+        return $this->getResponse($this->curl->post('/qrcode/create?access_token='.$this->accessToken, $params));
+    }
+
+    /**
      * 对返回结果进行判断是否成功/失败
      * @param mixed $result
      * @return bool|string|array
@@ -67,7 +113,8 @@ class Request
     protected function getResponse($result)
     {
         if ($result && is_array($result) && isset($result['errcode']) && $result['errcode'] != 0) {
-            $this->error = $result;
+            $this->errCode = $result['errcode'];
+            $this->errMsg = $result['errmsg'];
             return false;
         }
         return $result;

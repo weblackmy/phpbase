@@ -1,6 +1,7 @@
 <?php
 namespace phpbase\lib\weixin;
 
+use Desarrolla2\Cache\Adapter\File;
 /**
  * Class Base
  * @author qian lei <weblackmy@gmail.com>
@@ -11,7 +12,7 @@ class Base
     /**
      * @var array
      */
-    protected $config = [];
+    protected $config;
 
     /**
      * @var string
@@ -32,7 +33,8 @@ class Base
         $this->config = $this->getConfig();
         $this->request = new Request($this->config);
         if ($initAccessToken) {
-            $this->getAccessToken();
+            $this->getAccessToken();// TODO try cache
+            $this->request->setAccessToken($this->accessToken);
         }
     }
 
@@ -49,11 +51,21 @@ class Base
     {}
 
     /**
+     * @param string $cacheKey
      * @return string
+     * @throws \Exception
      */
-    protected function getAccessToken()
+    protected function getAccessToken($cacheKey = 'weixinAccessToken')
     {
-        $this->request->getAccessToken();
+        $cache = new File($this->config['cacheDir']);
+        if (!$accessToken = $cache->get($cacheKey)) {
+            if (($result = $this->request->getAccessToken()) === false) {
+                throw new \Exception($this->request->getErrMsg(), $this->request->getErrCode());
+            }
+            $cache->set($cacheKey, $result['access_token'], $result['expires_in']);
+            $accessToken = $result['access_token'];
+        }
+        return $accessToken;
     }
 
     /**

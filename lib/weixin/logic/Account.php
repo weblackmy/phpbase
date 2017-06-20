@@ -15,7 +15,12 @@ class Account extends Base
      */
     public function qrCode()
     {
-        
+        $result = $this->request->qrCodeTicketCreate('QR_SCENE', 100);
+        if ($result === false) {
+            var_dump($this->request->getErrCode());
+            exit;
+        }
+        var_dump($result);
     }
 
     /**
