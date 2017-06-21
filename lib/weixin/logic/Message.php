@@ -36,6 +36,9 @@ class Message extends Base
             $xml = $this->parseXml($xmlData);
             //解析MsgType
             $method = 'callbackMsgType'.ucfirst($xml['MsgType']);
+            if ($xml['MsgType'] == 'event') {
+                $method .= ucfirst($xml['Event']);
+            }
             if (!method_exists($this, $method)) {
                 throw new \Exception('callback method not exist:'.$method);
             }
@@ -131,17 +134,40 @@ class Message extends Base
     }
 
     /**
-     * 事件消息
+     * 事件消息(关注公众号)
      * @param array $data
      * @return string
      */
-    protected function callbackMsgTypeEvent($data)
+    protected function callbackMsgTypeEventSubscribe($data)
     {
-        return true;
+        return $this->replyNewsMessage($data, [
+            [
+                'title' => 'this is title',
+                'description' => 'this is description',
+                'picUrl' => 'http://www.chinagwyw.org/uploadfile/2016/1214/20161214101256437.jpg',
+                'url' => 'http://www.baidu.com'
+            ],
+            [
+                'title' => 'this is title 2',
+                'description' => 'this is description 2',
+                'picUrl' => '',
+                'url' => 'http://www.baidu.com'
+            ]
+        ]);
     }
 
     /**
-     * 接收微信消息后,被动回复消息
+     * 事件消息(关注公众号)
+     * @param array $data
+     * @return string
+     */
+    protected function callbackMsgTypeEventUnsubscribe($data)
+    {
+        return $this->replyTextMessage($data, 'bye bye');
+    }
+
+    /**
+     * 接收微信消息后,被动回复文本消息
      * @param array $data 用户发送的消息
      * @param string $content
      * @return string
@@ -152,6 +178,31 @@ class Message extends Base
             'MsgType' => 'text',
             'Content' => $content,
         ];
+        return $this->replyMessage($data, $params);
+    }
+
+    /**
+     * 接收微信消息后,被动回复图文消息
+     * @param array $data
+     * @param array $news 图文消息配置
+     * @return string
+     */
+    protected function replyNewsMessage($data, $news)
+    {
+        $maxNews = 8;
+        $params = [
+            'MsgType' => 'news',
+            'ArticleCount' => count($news) <= $maxNews ? count($news) : $maxNews,
+        ];
+        //微信支持最多8条
+        foreach (array_slice($news, 0, 8) as $item) {
+            $params['Articles'][] = [
+                'Title' => $item['title'],
+                'Description' => $item['description'],
+                'PicUrl' => $item['picUrl'],
+                'Url' => $item['url'],
+            ];
+        }
         return $this->replyMessage($data, $params);
     }
 
