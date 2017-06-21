@@ -198,7 +198,7 @@ class Log
     private static function log($key, $data, $logLevel)
     {
         $key = self::$mkdirRecursive ? $key : str_replace('/', '-', $key);
-        $logFile = self::$logDir . '/'. trim($key, '/') . self::$logFileExt;
+        $logFile = self::$logDir . '/'. trim($key, '/') . '_'. date('Y-m-d') . self::$logFileExt;
         if (!isset(self::$logData[$logFile])) {
             self::$logData[$logFile] = [];
         }
