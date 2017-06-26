@@ -5,6 +5,6 @@
 .Ds_Store
 
 #phpbase
-lib/weixin/config/config.php
+lib/weixin/config/mp.php
 lib/weixin/config/pay.php
 lib/weixin/runtime/
