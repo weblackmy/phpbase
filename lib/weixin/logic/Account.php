@@ -5,7 +5,7 @@ use phpbase\lib\weixin\Base;
 /**
  * Class Account 账号管理
  * @author qian lei <weblackmy@gmail.com>
- * @package phpbase\lib\curl
+ * @package phpbase\lib\weixin\logic
  */
 class Account extends Base
 {

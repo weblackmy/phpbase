@@ -2,12 +2,12 @@
 namespace phpbase\lib\weixin\logic;
 
 use phpbase\lib\weixin\Base;
-use phpbase\lib\log\Log;
 use phpbase\lib\weixin\Xml;
+use phpbase\lib\log\Log;
 /**
  * Class Message 消息管理
  * @author qian lei <weblackmy@gmail.com>
- * @package phpbase\lib\curl
+ * @package phpbase\lib\weixin\logic
  */
 class Message extends Base
 {
@@ -34,7 +34,7 @@ class Message extends Base
     public function parseMessage($xmlData)
     {
         try {
-            $xml = $this->parseXml($xmlData);
+            $xml = Xml::decode($xmlData);
             //解析MsgType
             $method = 'callbackMsgType'.ucfirst($xml['MsgType']);
             if ($xml['MsgType'] == 'event') {
@@ -48,20 +48,6 @@ class Message extends Base
             Log::error('weixin-parseMessage', $e->getMessage());
             return false;
         }
-    }
-
-    /**
-     * 解析微信服务器的xml消息
-     * @param string $xmlData
-     * @return array
-     * @throws \Exception
-     */
-    protected function parseXml($xmlData)
-    {
-        if (false === ($data = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA))) {
-            throw new \Exception('xml parse error:'.$xmlData);
-        }
-        return (array)$data;
     }
 
     /**
@@ -219,7 +205,7 @@ class Message extends Base
             'FromUserName' => $data['ToUserName'],
             'CreateTime' => time(),
         ]);
-        return Xml::xmlEncode($params);
+        return Xml::encode($params);
     }
 
     /********************************************* 客服消息(主动发送TODO) ************************************************/

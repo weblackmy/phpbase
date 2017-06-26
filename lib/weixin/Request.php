@@ -41,10 +41,17 @@ class Request
     public function __construct($config)
     {
         $this->config = $config;
-        $this->curl = new Curl([
-            'urlPrefix' => $this->config['weixinApi'],
-            'jsonResult' => true,
-        ]);
+        $this->curl = new Curl();
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setCurlOptions($options)
+    {
+        foreach ($options as $k => $v) {
+            $this->curl->{$k} = $v;
+        }
     }
 
     /**
@@ -103,6 +110,18 @@ class Request
             ],
         ];
         return $this->getResponse($this->curl->post('/qrcode/create?access_token='.$this->accessToken, $params));
+    }
+
+    /*************************************************** 微信支付-红包 **************************************************/
+    /**
+     * 发送普通红包
+     * @param string $postXml 红包参数,需要转换为xml
+     * @param array $curlOptions
+     * @return string
+     */
+    public function sendRedPacketNormal($postXml, $curlOptions = [])
+    {
+        return $this->curl->post('/mmpaymkttransfers/sendredpack', $postXml, $curlOptions);
     }
 
     /**

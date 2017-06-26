@@ -78,6 +78,17 @@ class Curl
     }
 
     /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->{$name} = $value;
+        }
+    }
+
+    /**
      * @param string $url
      * @param string|array $params
      * @param array $options
@@ -157,14 +168,22 @@ class Curl
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         //set https
         if (substr($url, 0, 8) == 'https://') {
-            if (isset($options['caInfo'])) {
+            if (isset($options['sslCa'])) {
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);   //只信任CA颁布的证书
-                curl_setopt($ch, CURLOPT_CAINFO, $options['caInfo']); //CA根证书(用来验证的网站证书是否是CA颁布)
                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); //检查证书中是否设置域名,并且是否与提供的主机名匹配
+                curl_setopt($ch, CURLOPT_CAINFO, $options['sslCa']); //CA根证书(用来验证的网站证书是否是CA颁布)
             } else {
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //信任任何证书
                 //CURLOPT_SSL_VERIFYHOST no longer accepts the value 1, value 2 will be used instead
                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); //检查证书中是否设置域名
+            }
+            //PEM格式证书的文件名
+            if (isset($options['sslCert'])) {
+                curl_setopt($ch, CURLOPT_SSLCERT, $options['sslCert']);
+            }
+            //SSL私钥的文件名
+            if (isset($options['sslKey'])) {
+                curl_setopt($ch, CURLOPT_SSLKEY, $options['sslKey']);
             }
         }
         //header

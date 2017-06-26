@@ -3,9 +3,9 @@ namespace phpbase\lib\weixin;
 
 use Desarrolla2\Cache\Adapter\File;
 /**
- * Class Base
+ * Class Base 微信公众号基础类
  * @author qian lei <weblackmy@gmail.com>
- * @package phpbase\lib\curl
+ * @package phpbase\lib\weixin
  */
 class Base
 {
@@ -32,6 +32,10 @@ class Base
     {
         $this->config = $this->getConfig();
         $this->request = new Request($this->config);
+        $this->request->setCurlOptions([
+            'urlPrefix' => $this->config['weixinApi'],
+            'jsonResult' => true,
+        ]);
         if ($initAccessToken) {
             $this->getAccessToken();// TODO try cache
             $this->request->setAccessToken($this->accessToken);
@@ -72,7 +76,7 @@ class Base
      * 微信基础配置
      * @return array
      */
-    private function getConfig()
+    protected function getConfig()
     {
         if (!$this->config) {
             if (file_exists(__DIR__ . '/config/config.php')) {

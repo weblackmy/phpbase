@@ -15,7 +15,7 @@ class Xml
      * @param string|array $attr 根节点属性
      * @return string
      */
-    public static function xmlEncode($data, $root = 'xml', $attr = '')
+    public static function encode($data, $root = 'xml', $attr = '')
     {
         if (is_array($attr)) {
             $_attr = [];
@@ -30,6 +30,22 @@ class Xml
         $xml .= self::dataToXml($data);
         $xml .= "</{$root}>";
         return $xml;
+    }
+
+    /**
+     * XML解码
+     * @param string $xmlData
+     * @return array
+     * @throws \Exception
+     */
+    public static function decode($xmlData)
+    {
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        if (false === ($data = simplexml_load_string($xmlData, 'SimpleXMLElement', LIBXML_NOCDATA))) {
+            throw new \Exception('xml parse error:'.$xmlData);
+        }
+        return (array)$data;
     }
 
     /**

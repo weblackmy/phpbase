@@ -6,4 +6,5 @@
 
 #phpbase
 lib/weixin/config/config.php
+lib/weixin/config/pay.php
 lib/weixin/runtime/
