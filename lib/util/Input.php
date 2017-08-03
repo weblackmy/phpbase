@@ -1,4 +1,5 @@
 <?php
+
 namespace phpbase\lib\util;
 
 /**
@@ -15,9 +16,9 @@ class Input
      * @param string $defaultValue
      * @return mixed
      */
-    public static function get($key,$type='string',$defaultValue='')
+    public static function get($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_GET[$key]) ? $_GET[$key] : $defaultValue,$type);
+        return self::typeConvert(isset($_GET[$key]) ? $_GET[$key] : $defaultValue, $type);
     }
 
     /**
@@ -27,9 +28,9 @@ class Input
      * @param string $defaultValue
      * @return mixed
      */
-    public static function post($key,$type='string',$defaultValue='')
+    public static function post($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_POST[$key]) ? $_POST[$key] : $defaultValue,$type);
+        return self::typeConvert(isset($_POST[$key]) ? $_POST[$key] : $defaultValue, $type);
     }
 
     /**
@@ -39,9 +40,9 @@ class Input
      * @param string $defaultValue
      * @return mixed
      */
-    public static function request($key,$type='string',$defaultValue='')
+    public static function request($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_REQUEST[$key]) ? $_REQUEST[$key] : $defaultValue,$type);
+        return self::typeConvert(isset($_REQUEST[$key]) ? $_REQUEST[$key] : $defaultValue, $type);
     }
 
     /**
@@ -50,13 +51,21 @@ class Input
      * @param string $toType
      * @return mixed
      */
-    public static function typeConvert($v,$toType)
+    public static function typeConvert($v, $toType)
     {
-        switch ($toType)
-        {
-            case 'int':    $v = (int) $v;    break;
-            case 'float':  $v = (float) $v;  break;
-            case 'string': $v = (string) trim($v); break;
+        switch ($toType) {
+            case 'int':
+                $v = (int)$v;
+                break;
+            case 'float':
+                $v = (float)$v;
+                break;
+            case 'string':
+                $v = (string)trim($v);
+                break;
+            case 'bool':
+                $v = (bool)$v;
+                break;
         }
         return $v;
     }
