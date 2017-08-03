@@ -11,11 +11,12 @@ class Validate
     /**
      * 检测是否是合法的大陆手机号
      * @param string $str
+     * @param bool $checkPrefix 是否检测号码前缀
      * @return bool|int
      */
-    public static function isMobile($str)
+    public static function isMobile($str, $checkPrefix = false)
     {
-        return !empty($str) ? preg_match('/^(\+?86-?|0)?1[0-9]{10}$/', $str) : false;
+        return !empty($str) ? preg_match('/^' . ($checkPrefix ? '(\+?86-?|0)?' : '') . '1[0-9]{10}$/', $str) : false;
     }
 
     /**
