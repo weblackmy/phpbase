@@ -6,8 +6,6 @@
 		}
 	},
 	"require": {
-      "desarrolla2/cache":  "~2.0",
-      "predis/predis": "~1.0.0",
-		"qiniu/php-sdk": "^7.1"
+
 	}
 }
