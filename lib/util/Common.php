@@ -9,6 +9,31 @@ namespace phpbase\lib\util;
 class Common
 {
     /**
+     * 数据类型转换
+     * @param mixed $v
+     * @param string $toType
+     * @return mixed
+     */
+    public static function typeConvert($v, $toType)
+    {
+        switch ($toType) {
+            case 'int':
+                $v = (int)$v;
+                break;
+            case 'float':
+                $v = (float)$v;
+                break;
+            case 'string':
+                $v = (string)trim($v);
+                break;
+            case 'bool':
+                $v = (bool)$v;
+                break;
+        }
+        return $v;
+    }
+    
+    /**
      * @param string|array $data
      * @return string
      */

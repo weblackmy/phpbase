@@ -18,7 +18,7 @@ class Input
      */
     public static function get($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_GET[$key]) ? $_GET[$key] : $defaultValue, $type);
+        return Common::typeConvert(isset($_GET[$key]) ? $_GET[$key] : $defaultValue, $type);
     }
 
     /**
@@ -30,7 +30,7 @@ class Input
      */
     public static function post($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_POST[$key]) ? $_POST[$key] : $defaultValue, $type);
+        return Common::typeConvert(isset($_POST[$key]) ? $_POST[$key] : $defaultValue, $type);
     }
 
     /**
@@ -42,31 +42,6 @@ class Input
      */
     public static function request($key, $type = 'string', $defaultValue = '')
     {
-        return self::typeConvert(isset($_REQUEST[$key]) ? $_REQUEST[$key] : $defaultValue, $type);
-    }
-
-    /**
-     * 数据类型转换
-     * @param mixed $v
-     * @param string $toType
-     * @return mixed
-     */
-    public static function typeConvert($v, $toType)
-    {
-        switch ($toType) {
-            case 'int':
-                $v = (int)$v;
-                break;
-            case 'float':
-                $v = (float)$v;
-                break;
-            case 'string':
-                $v = (string)trim($v);
-                break;
-            case 'bool':
-                $v = (bool)$v;
-                break;
-        }
-        return $v;
+        return Common::typeConvert(isset($_REQUEST[$key]) ? $_REQUEST[$key] : $defaultValue, $type);
     }
 }
