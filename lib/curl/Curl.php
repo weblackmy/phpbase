@@ -224,7 +224,7 @@ class Curl
         if (isset($options['cookieFile']) && is_file($options['cookieFile'])) {
             curl_setopt($ch, CURLOPT_COOKIEFILE, $options['cookieFile']);
         }
-        if (isset($options['cookieJAR']) && is_file($options['cookieJAR'])) {
+        if (isset($options['cookieJAR'])) {
             curl_setopt($ch, CURLOPT_COOKIEJAR, $options['cookieJAR']);
         }
 
