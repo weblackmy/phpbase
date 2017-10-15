@@ -31,4 +31,14 @@ class String
         }
         return $out;
     }
+
+    /**
+     * 判断字符串是否是UTF-8编码
+     * @param string $str
+     * @return bool
+     */
+    public static function isUtf8($str)
+    {
+        return mb_check_encoding($str, 'UTF-8');
+    }
 }
