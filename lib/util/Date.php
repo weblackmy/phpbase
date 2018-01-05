@@ -17,4 +17,15 @@ class Date
         if (!$date) $date = date('Y-m-d');
         return strtotime($date) - 86400;
     }
+
+    /**
+     * unix时间戳转换
+     * @param int $ts
+     * @param string $format
+     * @return string
+     */
+    public static function unixTimeFormat($ts, $format = 'Y-m-d H:i:s')
+    {
+        return $ts ? date($format, $ts) : '';
+    }
 }
