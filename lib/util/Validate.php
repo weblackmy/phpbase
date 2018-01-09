@@ -28,4 +28,15 @@ class Validate
     {
         return !empty($str) ? preg_match('/(\d{4}-|\d{3}-)?(\d{8}|\d{7})/', $str) : false;
     }
+
+    /**
+     * 是否是合法邮箱
+     * @param string $str
+     * @return int|bool
+     * @see http://www.regular-expressions.info/email.html
+     */
+    public static function isEmail($str)
+    {
+        return preg_match('/^[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/', $str);
+    }
 }
