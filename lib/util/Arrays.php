@@ -364,6 +364,18 @@ class Arrays
     }
 
     /**
+     * getValue 简写
+     * @param array $array
+     * @param string $key
+     * @param null $default
+     * @return mixed
+     */
+    public static function get($array, $key, $default = null)
+    {
+        return self::getValue($array, $key, $default);
+    }
+
+    /**
      * 将关联数组转为索引数组
      * @param array $arr 要转换遥数组
      * @return array
