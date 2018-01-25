@@ -374,4 +374,21 @@ class Arrays
         $args[] = &$array;
         call_user_func_array('array_multisort', $args);
     }
+
+    /**
+     * 将关联数组转为索引数组
+     * @param array $arr 要转换遥数组
+     * @return array
+     */
+    public static function associate2Index($arr)
+    {
+        $result = [];
+        foreach ($arr as $key => $value) {
+            if (is_array($value)) {
+                $value = self::associate2Index($value);
+            }
+            $result[] = $value;
+        }
+        return $result;
+    }
 }
