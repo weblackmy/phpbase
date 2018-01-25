@@ -41,4 +41,14 @@ class String
     {
         return mb_check_encoding($str, 'UTF-8');
     }
+
+    /**
+     * 删除不可打印的字符
+     * @param string $str
+     * @return string
+     */
+    public static function removeNonPrintable($str)
+    {
+        return preg_replace('/[[:^print:]]/', '', $str);
+    }
 }
