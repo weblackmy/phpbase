@@ -3,8 +3,8 @@ namespace phpbase\lib\curl;
 
 /**
  * Class Curl
- * @author qian lei <weblackmy@gmail.com>
  * @package phpbase\lib\curl
+ * @author qian lei
  */
 class Curl
 {

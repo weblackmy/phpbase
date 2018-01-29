@@ -3,8 +3,8 @@ namespace phpbase\lib\util;
 
 /**
  * Class Validate
- * @author qian lei <weblackmy@gmail.com>
  * @package phpbase\lib\util
+ * @author qian lei
  */
 class Validate
 {

@@ -6,11 +6,11 @@ use phpbase\lib\log\Log;
 
 /**
  * Class Redis
+ * @package phpbase\lib\redis
+ * @author qian lei
  * @method static bool|string get($key) Get the value related to the specified key
  * @method static bool|string set($key, $value, $timeout = 0) Set the string value in argument as value of the key.
  * @method static string info($option = null) Returns an associative array of strings and integers.
- * @author qian lei <weblackmy@gmail.com>
- * @package phpbase\lib\redis
  */
 class Redis
 {

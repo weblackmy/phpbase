@@ -1,6 +1,11 @@
 <?php
 namespace phpbase\lib\util;
 
+/**
+ * Class Html
+ * @package phpbase\lib\util
+ * @author qian lei
+ */
 class Html
 {
     /**

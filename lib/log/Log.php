@@ -3,8 +3,8 @@ namespace phpbase\lib\log;
 
 /**
  * Class Log
- * @author qian lei <weblackmy@gmail.com>
- * @package phpbase\lib\curl
+ * @package phpbase\lib\log
+ * @author qian lei
  */
 class Log
 {

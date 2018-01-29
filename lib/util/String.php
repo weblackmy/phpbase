@@ -1,12 +1,13 @@
 <?php
 namespace phpbase\lib\util;
 
+defined('MB_EXT_EXIST') || define('MB_EXT_EXIST', function_exists('mb_substr'));
+
 /**
  * Class String
- * @author qian lei <weblackmy@gmail.com>
  * @package phpbase\lib\util
+ * @author qian lei
  */
-defined('MB_EXT_EXIST') || define('MB_EXT_EXIST', function_exists('mb_substr'));
 class String
 {
     /**
