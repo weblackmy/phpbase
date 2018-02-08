@@ -26,7 +26,17 @@ class SConfig
     }
 
     /**
-     * Mail 支持的模版参数
+     * set config
+     * @param string $key
+     * @param array $config
+     */
+    public static function set($key, array $config)
+    {
+        self::$config[$key] = $config;
+    }
+
+    /**
+     * Mail模版参数
      * return array
      */
     public static function getMail()
@@ -39,14 +49,16 @@ class SConfig
             'password' => 'xxx',
         ]);
     }
-    
+
     /**
-     * set config
-     * @param string $key
-     * @param array $config
+     * 七牛云模板参数
+     * @return array
      */
-    public static function set($key, array $config)
+    public static function getQiniu()
     {
-        self::$config[$key] = $config;
+        return Arrays::get(self::$config, 'qiniu', [
+            'accessKey' => '',
+            'secretKey' => '',
+        ]);
     }
 }
