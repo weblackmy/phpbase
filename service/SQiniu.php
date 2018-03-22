@@ -17,14 +17,39 @@ class SQiniu
     private static $storage;
 
     /**
+     * 文件列表
+     * @param string $bucket
+     * @param string $prefix
+     * @param string $marker
+     * @param integer $limit
+     * @return bool|array
+     */
+    public static function listFiles($bucket, $prefix, $marker, $limit)
+    {
+        return self::getStorage()->listFiles($bucket, $prefix, $marker, $limit);
+    }
+
+    /**
      * 上传文件
      * @param string $bucket
      * @param string $file
-     * @return bool
+     * @param bool $blob
+     * @return bool|array
      */
-    public static function uploadFile($bucket, $file)
+    public static function uploadFile($bucket, $file, $blob = false)
     {
-        return self::getStorage()->uploadFile($bucket, $file);
+        return self::getStorage()->uploadFile($bucket, $file, $blob);
+    }
+
+    /**
+     * 文件下载链接
+     * @param string $bucket
+     * @param string $filename
+     * @return bool|string
+     */
+    public static function downloadUrl($bucket, $filename)
+    {
+        return self::getStorage()->downloadUrl($bucket, $filename);
     }
 
     /**
