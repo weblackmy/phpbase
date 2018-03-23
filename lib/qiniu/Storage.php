@@ -75,13 +75,37 @@ class Storage extends Base
 
     /**
      * @param $bucket
-     * @param string $filename 要下载的文件名称
+     * @param string $key 上传到七牛后保存的文件名
+     * @return bool|array
+     */
+    public function deleteFile($bucket, $key)
+    {
+        try {
+            $error = (new BucketManager($this->auth))->delete($bucket, $key);
+            if ($error) {
+                /* @var Error $error*/
+                throw new \Exception(
+                    is_string($error)
+                        ? $error
+                        : (is_object($error) ? Common::toJson($error->getResponse()) : '')
+                );
+            }
+            return true;
+        } catch (\Exception $e) {
+            Msg::setMsg($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @param $bucket
+     * @param string $key 上传到七牛后保存的文件名
      * @return bool|string
      */
-    public function downloadUrl($bucket, $filename)
+    public function downloadUrl($bucket, $key)
     {
         //http://<domain>/<key>
         $domains = (new BucketManager($this->auth))->domains($bucket);
-        return 'http://'. array_pop($domains[0]) . '/' . $filename;
+        return 'http://'. array_pop($domains[0]) . '/' . $key;
     }
 }

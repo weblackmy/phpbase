@@ -42,14 +42,25 @@ class SQiniu
     }
 
     /**
+     * 删除文件
+     * @param string $bucket
+     * @param string $key
+     * @return bool|array
+     */
+    public static function deleteFile($bucket, $key)
+    {
+        return self::getStorage()->deleteFile($bucket, $key);
+    }
+
+    /**
      * 文件下载链接
      * @param string $bucket
-     * @param string $filename
+     * @param string $key
      * @return bool|string
      */
-    public static function downloadUrl($bucket, $filename)
+    public static function downloadUrl($bucket, $key)
     {
-        return self::getStorage()->downloadUrl($bucket, $filename);
+        return self::getStorage()->downloadUrl($bucket, $key);
     }
 
     /**
