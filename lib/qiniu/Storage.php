@@ -25,13 +25,15 @@ class Storage extends Base
     {
         try {
             list($ret, $error) = (new BucketManager($this->auth))->listFiles($bucket, $prefix, $marker, $limit, $delimiter);
-            if ($error !== null) {
+            if ($error) {
                 /* @var Error $error*/
-                $error = is_string($error)
-                    ? $error
-                    : (is_object($error) ? Common::toJson($error->getResponse()) : '');
+                throw new \Exception(
+                    is_string($error)
+                        ? $error
+                        : (is_object($error) ? Common::toJson($error->getResponse()) : '')
+                );
             }
-            return array($ret, $error);
+            return $ret;
         } catch (\Exception $e) {
             Msg::setMsg($e->getMessage());
             return false;
@@ -56,13 +58,15 @@ class Storage extends Base
             } else {
                 list($ret, $error) = (new UploadManager())->putFile($this->getUploadToken(), pathinfo($file, PATHINFO_BASENAME), $file);
             }
-            if ($error !== null) {
+            if ($error) {
                 /* @var Error $error*/
-                $error = is_string($error)
-                    ? $error
-                    : (is_object($error) ? Common::toJson($error->getResponse()) : '');
+                throw new \Exception(
+                    is_string($error)
+                        ? $error
+                        : (is_object($error) ? Common::toJson($error->getResponse()) : '')
+                );
             }
-            return array($ret, $error);
+            return $ret;
         } catch (\Exception $e) {
             Msg::setMsg($e->getMessage());
             return false;
