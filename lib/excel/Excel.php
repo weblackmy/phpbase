@@ -50,7 +50,7 @@ class Excel
                 $columnString = $workSheetObject->getHighestColumn();
 
                 //从第二行开始拿数据(首行为header) A1:AD1
-                for ($i = 1; $i <= $rowCount; $i++) {
+                for ($i = 2; $i <= $rowCount; $i++) {
                     $data[] = $workSheetObject->rangeToArray('A' . $i . ':' . $columnString . $i)[0];
                 }
             }
