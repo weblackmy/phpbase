@@ -4,11 +4,11 @@ namespace phpbase\lib\util;
 defined('MB_EXT_EXIST') || define('MB_EXT_EXIST', function_exists('mb_substr'));
 
 /**
- * Class String
+ * Class Strings
  * @package phpbase\lib\util
  * @author qian lei
  */
-class String
+class Strings
 {
     /**
      * 字符串编码转换函数

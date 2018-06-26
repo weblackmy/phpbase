@@ -16,7 +16,7 @@ class Excel
     /**
      * @var array
      */
-    private static $ext = ['.xls', 'xlsx'];
+    private static $ext = ['xls', 'xlsx'];
 
     /**
      * 读取Excel文件
