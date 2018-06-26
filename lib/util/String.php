@@ -52,4 +52,16 @@ class String
     {
         return preg_replace('/[[:^print:]]/', '', $str);
     }
+
+    /**
+     * 根据字符顺序排序
+     * @param string $str
+     * @return string
+     */
+    public static function sortChar($str)
+    {
+        $strArr = str_split($str);
+        sort($strArr);
+        return implode('', $strArr);
+    }
 }
