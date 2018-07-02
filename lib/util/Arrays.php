@@ -391,4 +391,29 @@ class Arrays
         }
         return $result;
     }
+
+    /**
+     * 判断是否为空数组
+     * @param array $arr
+     * @return array
+     */
+    public static function isArrayNull($arr)
+    {
+        if (is_array($arr)) {
+            foreach ($arr as $key => $value) {
+                if ($value && !is_array($value)) {
+                    return false;
+                }
+                if (!self::isArrayNull($value)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            if (!$arr) {
+                return true;
+            }
+            return false;
+        }
+    }
 }
