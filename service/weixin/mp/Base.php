@@ -1,7 +1,9 @@
 <?php
-namespace phpbase\lib\weixin\mp;
+namespace phpbase\service\weixin\mp;
 
-use Desarrolla2\Cache\Adapter\File;
+use phpbase\lib\redis\Redis;
+use phpbase\lib\util\Arrays;
+
 /**
  * Class Base 微信公众号基础类
  * @author qian lei <weblackmy@gmail.com>
@@ -20,6 +22,11 @@ class Base
     protected $accessToken;
 
     /**
+     * @var string
+     */
+    protected $accessTokenCacheKey;
+
+    /**
      * @var Request
      */
     protected $request;
@@ -31,6 +38,7 @@ class Base
     public function __construct($initAccessToken = true)
     {
         $this->config = $this->getConfig();
+        $this->accessTokenCacheKey = Arrays::get($this->config, 'accessTokenCacheKey', 'weixinAccessToken');
         $this->request = new Request($this->config);
         $this->request->setCurlOptions([
             'urlPrefix' => $this->config['weixinApi'],
@@ -55,18 +63,17 @@ class Base
     {}
 
     /**
-     * @param string $cacheKey
      * @return string
      * @throws \Exception
      */
-    protected function getAccessToken($cacheKey = 'weixinAccessToken')
+    protected function getAccessToken()
     {
-        $cache = new File($this->config['cacheDir']);
-        if (!$accessToken = $cache->get($cacheKey)) {
+        $accessToken = Redis::get($this->accessTokenCacheKey);
+        if (!$accessToken) {
             if (($result = $this->request->getAccessToken()) === false) {
                 throw new \Exception($this->request->getErrMsg(), $this->request->getErrCode());
             }
-            $cache->set($cacheKey, $result['access_token'], $result['expires_in']);
+            Redis::set($this->accessTokenCacheKey, $result['access_token'], $result['expires_in']);
             $accessToken = $result['access_token'];
         }
         return $accessToken;

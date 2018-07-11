@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\weixin\pay;
+namespace phpbase\service\weixin\pay;
 
 /**
  * Class BasePay 微信支付基础类

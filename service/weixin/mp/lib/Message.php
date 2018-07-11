@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\weixin\mp\lib;
+namespace phpbase\service\weixin\mp\lib;
 
 use phpbase\lib\weixin\mp\Base;
 use phpbase\lib\weixin\lib\Xml;

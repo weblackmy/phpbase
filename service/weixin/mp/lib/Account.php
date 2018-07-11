@@ -1,7 +1,7 @@
 <?php
-namespace phpbase\lib\weixin\mp\lib;
+namespace phpbase\service\weixin\mp\lib;
 
-use phpbase\lib\weixin\mp\Base;
+use phpbase\service\weixin\mp\Base;
 /**
  * Class Account 账号管理
  * @author qian lei <weblackmy@gmail.com>

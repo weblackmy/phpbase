@@ -1,8 +1,8 @@
 <?php
 namespace phpbase\lib\weixin\pay\lib;
 
-use phpbase\lib\weixin\pay\Base;
-use phpbase\lib\weixin\lib\Xml;
+use phpbase\service\weixin\mp\Base;
+use phpbase\service\weixin\lib\Xml;
 /**
  * 微信支付红包
  * @author qian lei <weblackmy@gmail.com>

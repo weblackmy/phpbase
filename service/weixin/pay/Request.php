@@ -1,5 +1,5 @@
 <?php
-namespace phpbase\lib\weixin\pay;
+namespace phpbase\service\weixin\pay;
 
 use phpbase\lib\curl\Curl;
 /**
