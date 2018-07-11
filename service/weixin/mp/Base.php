@@ -3,6 +3,7 @@ namespace phpbase\service\weixin\mp;
 
 use phpbase\lib\redis\Redis;
 use phpbase\lib\util\Arrays;
+use phpbase\service\SConfig;
 
 /**
  * Class Base 微信公众号基础类
@@ -11,6 +12,11 @@ use phpbase\lib\util\Arrays;
  */
 class Base
 {
+    /**
+     * @var string
+     */
+    const weixinApi = 'https://api.weixin.qq.com';
+
     /**
      * @var array
      */
@@ -34,14 +40,15 @@ class Base
     /**
      * Base constructor.
      * @param bool $initAccessToken
+     * @throws \Exception
      */
     public function __construct($initAccessToken = true)
     {
-        $this->config = $this->getConfig();
-        $this->accessTokenCacheKey = Arrays::get($this->config, 'accessTokenCacheKey', 'weixinAccessToken');
+        $this->config = SConfig::getWxMp();
+        $this->accessTokenCacheKey = Arrays::get($this->config, 'accessTokenCacheKey', 'wxAccessToken');
         $this->request = new Request($this->config);
         $this->request->setCurlOptions([
-            'urlPrefix' => $this->config['weixinApi'],
+            'urlPrefix' => self::weixinApi,
             'jsonResult' => true,
         ]);
         if ($initAccessToken) {
@@ -77,19 +84,5 @@ class Base
             $accessToken = $result['access_token'];
         }
         return $accessToken;
-    }
-
-    /**
-     * 微信基础配置
-     * @return array
-     */
-    protected function getConfig()
-    {
-        if (!$this->config) {
-            if (file_exists(__DIR__ . '/config/mp.php')) {
-                $this->config = require __DIR__ . '/config/mp.php';
-            }
-        }
-        return $this->config;
     }
 }

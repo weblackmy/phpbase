@@ -11,6 +11,10 @@ use phpbase\lib\log\Log;
  * @method static bool|string get($key) Get the value related to the specified key
  * @method static bool|string set($key, $value, $timeout = 0) Set the string value in argument as value of the key.
  * @method static string info($option = null) Returns an associative array of strings and integers.
+ * @method static string expire($key, $ttl) TRUE in case of success, FALSE in case of failure.
+ * @method static string hGet($key, $hashKey) The value, if the command executed successfully BOOL FALSE in case of failure
+ * @method static string hGetAll($key) An array of elements, the contents of the hash.
+ * @method static string hMSet($key, $hashKeys) bool
  */
 class Redis
 {
@@ -103,20 +107,23 @@ class Redis
     protected function connect()
     {
         if ($this->connected && is_object($this->redis)) {
-            return $this->redis->ping() == '+PONG';
-        }
-        $this->redis = new \Redis();
-        if (!$this->connected = $this->redis->connect(self::$opts['host'], self::$opts['port'], self::$opts['timeout'])) {
-            throw new \RedisException('Redis connect error');
-        }
-        if (Arrays::getValue(self::$opts, 'auth')) {
-            if (!$this->redis->auth(self::$opts['auth'])) {
-                throw new \RedisException('Auth failed');
+            if ($this->redis->ping() != '+PONG') {
+                throw new \RedisException('Redis ping error');
             }
-        }
-        if (Arrays::getValue(self::$opts, 'database')) {
-            if (!$this->redis->select(self::$opts['database'])) {
-                throw new \RedisException('Select database error');
+        } else {
+            $this->redis = new \Redis();
+            if (!$this->connected = $this->redis->connect(self::$opts['host'], self::$opts['port'], self::$opts['timeout'])) {
+                throw new \RedisException('Redis connect error');
+            }
+            if (Arrays::getValue(self::$opts, 'auth')) {
+                if (!$this->redis->auth(self::$opts['auth'])) {
+                    throw new \RedisException('Auth failed');
+                }
+            }
+            if (Arrays::getValue(self::$opts, 'database')) {
+                if (!$this->redis->select(self::$opts['database'])) {
+                    throw new \RedisException('Select database error');
+                }
             }
         }
         return true;

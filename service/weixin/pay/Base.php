@@ -8,6 +8,8 @@ namespace phpbase\service\weixin\pay;
  */
 class Base
 {
+    const payPai = 'https://api.mch.weixin.qq.com';
+
     /**
      * @var array 微信支付相关配置
      */
@@ -31,7 +33,7 @@ class Base
         $this->config = $this->getConfig();
         $this->request = new Request($this->config);
         $this->request->setCurlOptions([
-            'urlPrefix' => $this->config['payApi'],
+            'urlPrefix' => self::payPai,
         ]);
     }
 

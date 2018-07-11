@@ -61,4 +61,35 @@ class SConfig
             'secretKey' => '',
         ]);
     }
+
+    /**
+     * 微信模板参数
+     * @return array
+     */
+    public static function getWxMp()
+    {
+        return Arrays::get(self::$config, 'wxMp', [
+            'appId' => '',
+            'appSecret' => '',
+            'token' => '',
+            'encodingAESKey' => '',
+        ]);
+    }
+
+    /**
+     * 微信支付模板参数
+     * @return mixed
+     */
+    public static function getWxPay()
+    {
+        return Arrays::get(self::$config, 'wxPay', [
+            'payApi' => '',
+            'appId' => '',//绑定支付的APPID
+            'mchId' => '',//商户号
+            'key' => '',//商户支付密钥
+            'sslCert' => '',
+            'sslKey' => '',
+            'sslCa' => '',
+        ]);
+    }
 }
