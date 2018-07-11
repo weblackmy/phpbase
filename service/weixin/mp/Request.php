@@ -81,7 +81,7 @@ class Request
             'appid' => $this->config['appId'],
             'secret' => $this->config['appSecret'],
         ];
-        return $this->getResponse($this->curl->get('/token', $params));
+        return $this->getResponse($this->curl->get('/cgi-bin/token', $params));
     }
 
     /**
@@ -92,7 +92,24 @@ class Request
     {
         $this->accessToken = $token;
     }
+
     /***************************************************** 账号管理 ****************************************************/
+    /**
+     * 登录凭证校验
+     * @param string $jsCode 临时登录凭证
+     * @return bool|array
+     */
+    public function getLoginCredentials($jsCode)
+    {
+        $params = [
+            'grant_type' => 'authorization_code',
+            'appid' => $this->config['appId'],
+            'secret' => $this->config['appSecret'],
+            'js_code' => $jsCode,
+        ];
+        return $this->getResponse($this->curl->get('/sns/jscode2session', $params));
+    }
+
     /**
      * 生成带参数的二维码--创建二维码ticket
      * @param string $actionName QR_SCENE => 临时, QR_LIMIT_SCENE => 永久, QR_LIMIT_STR_SCENE => 永久的字符串参数值
@@ -100,7 +117,7 @@ class Request
      * @param int $expireSeconds 仅当$actionName为QR_SCENE时有效, 最大不超过24*3600*30秒
      * @return array|bool|string
      */
-    public function qrCodeTicketCreate($actionName, $sceneVal, $expireSeconds = 24*3600*30)
+    public function qrCodeTicketCreate($actionName, $sceneVal, $expireSeconds = 2592000)
     {
         $params = [
             'action_name' => $actionName,
@@ -109,7 +126,7 @@ class Request
                 $actionName == 'QR_LIMIT_STR_SCENE' ? 'scene_str' : 'scene_id' => $sceneVal,
             ],
         ];
-        return $this->getResponse($this->curl->post('/qrcode/create?access_token='.$this->accessToken, $params));
+        return $this->getResponse($this->curl->post('/cgi-bin/qrcode/create?access_token='.$this->accessToken, $params));
     }
 
     /**

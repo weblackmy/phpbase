@@ -10,6 +10,19 @@ use phpbase\lib\weixin\mp\Base;
 class Account extends Base
 {
     /**
+     * 登录凭证校验
+     */
+    public function loginCredentials($code)
+    {
+        $result = $this->request->getLoginCredentials($code);
+        if ($result === false) {
+            var_dump($this->request->getErrCode());
+            exit;
+        }
+        var_dump($result);
+    }
+
+    /**
      * 生成带参数的二维码
      * @see https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
      */

@@ -79,8 +79,8 @@ class Base
     protected function getConfig()
     {
         if (!$this->config) {
-            if (file_exists(__DIR__ . '/config/config.php')) {
-                $this->config = require __DIR__ . '/config/config.php';
+            if (file_exists(__DIR__ . '/config/mp.php')) {
+                $this->config = require __DIR__ . '/config/mp.php';
             }
         }
         return $this->config;
