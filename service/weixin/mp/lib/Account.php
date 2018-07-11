@@ -14,12 +14,7 @@ class Account extends Base
      */
     public function loginCredentials($code)
     {
-        $result = $this->request->getLoginCredentials($code);
-        if ($result === false) {
-            var_dump($this->request->getErrCode());
-            exit;
-        }
-        var_dump($result);
+        return $this->request->getLoginCredentials($code);
     }
 
     /**
