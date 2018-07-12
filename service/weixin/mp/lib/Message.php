@@ -1,9 +1,9 @@
 <?php
 namespace phpbase\service\weixin\mp\lib;
 
-use phpbase\lib\weixin\mp\Base;
-use phpbase\lib\weixin\lib\Xml;
 use phpbase\lib\log\Log;
+use phpbase\service\weixin\mp\Base;
+use phpbase\service\weixin\lib\Xml;
 /**
  * Class Message 消息管理
  * @author qian lei <weblackmy@gmail.com>

@@ -1,7 +1,9 @@
 <?php
 namespace phpbase\service\weixin\mp\lib;
 
+use phpbase\lib\util\Msg;
 use phpbase\service\weixin\mp\Base;
+use phpbase\service\weixin\vendor\WXBizDataCrypt;
 /**
  * Class Account 账号管理
  * @author qian lei <weblackmy@gmail.com>
@@ -14,7 +16,23 @@ class Account extends Base
      */
     public function loginCredentials($code)
     {
-        return $this->request->getLoginCredentials($code);
+        $result = $this->request->getLoginCredentials($code);
+        if ($result === false) {
+            Msg::setMsg($this->request->getErrCode());
+        }
+        return $result;
+    }
+
+    /**
+     * 用户数据解密
+     */
+    public function decryptData($sessionKey, $encryptedData, $iv)
+    {
+        $errCode = (new WXBizDataCrypt($this->config['appId'], $sessionKey))->decryptData($encryptedData, $iv, $decryptData);
+        if ($errCode !== 0) {
+            Msg::setMsg($errCode);
+        }
+        return json_decode($decryptData, true);
     }
 
     /**
