@@ -28,7 +28,7 @@ class Account extends Base
      */
     public function decryptData($sessionKey, $encryptedData, $iv)
     {
-        $errCode = (new WXBizDataCrypt($this->config['appId'], $sessionKey))->decryptData($encryptedData, $iv, $decryptData);
+        $errCode = (new WxBizDataCrypt($this->config['appId'], $sessionKey))->decryptData($encryptedData, $iv, $decryptData);
         if ($errCode !== 0) {
             Msg::setMsg($errCode);
         }
