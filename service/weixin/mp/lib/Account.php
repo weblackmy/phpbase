@@ -3,7 +3,7 @@ namespace phpbase\service\weixin\mp\lib;
 
 use phpbase\lib\util\Msg;
 use phpbase\service\weixin\mp\Base;
-use phpbase\service\weixin\vendor\WXBizDataCrypt;
+use phpbase\service\weixin\vendor\WxBizDataCrypt;
 /**
  * Class Account 账号管理
  * @author qian lei <weblackmy@gmail.com>
