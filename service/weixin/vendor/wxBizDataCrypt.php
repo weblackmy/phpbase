@@ -4,7 +4,7 @@ namespace phpbase\service\weixin\vendor;
 /**
  * 对微信小程序用户加密数据的解密
  */
-class WxBizDataCrypt
+class wxBizDataCrypt
 {
 
     public static $OK = 0;

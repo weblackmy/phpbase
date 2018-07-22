@@ -3,7 +3,7 @@ namespace phpbase\service\weixin\mp\lib;
 
 use phpbase\lib\util\Msg;
 use phpbase\service\weixin\mp\Base;
-use phpbase\service\weixin\vendor\WxBizDataCrypt;
+use phpbase\service\weixin\vendor\wxBizDataCrypt;
 /**
  * Class Account 账号管理
  * @author qian lei <weblackmy@gmail.com>
@@ -28,7 +28,7 @@ class Account extends Base
      */
     public function decryptData($sessionKey, $encryptedData, $iv)
     {
-        $errCode = (new WxBizDataCrypt($this->config['appId'], $sessionKey))->decryptData($encryptedData, $iv, $decryptData);
+        $errCode = (new wxBizDataCrypt($this->config['appId'], $sessionKey))->decryptData($encryptedData, $iv, $decryptData);
         if ($errCode !== 0) {
             Msg::setMsg($errCode);
         }
