@@ -19,7 +19,7 @@ class MpOrder extends Base
         $this->values = [
             'appid' => $this->config['appId'],
             'mch_id' => $this->config['mchId'],
-            'nonce_str' => md5(microtime(true)),
+            'nonce_str' => $this->getNonceStr(),
             'body' => $param['goods'],
             'out_trade_no' => $param['tradeNo'],
             'total_fee' => $param['money'],
@@ -30,5 +30,27 @@ class MpOrder extends Base
         ];
         $this->setSign();
         return $this->request->sendUnifiedOrder(Xml::encode($this->values));
+    }
+
+    /**
+     * 支付所需参数
+     */
+    public function payParams($param)
+    {
+        $this->values = [
+            'appId' => $this->config['appId'],
+            'timeStamp' => (string)time(),
+            'nonceStr' => $this->getNonceStr(),
+            'package' => 'prepay_id=' . $param['prepayId'],
+            'signType' => 'MD5',
+        ];
+        $this->setSign();
+        return [
+            'timeStamp' => $this->values['timeStamp'],
+            'nonceStr' => $this->values['nonceStr'],
+            'package' => $this->values['package'],
+            'signType' => $this->values['signType'],
+            'paySign' => $this->getSign(),
+        ];
     }
 }

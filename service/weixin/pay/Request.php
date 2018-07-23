@@ -1,6 +1,7 @@
 <?php
 namespace phpbase\service\weixin\pay;
 
+use phpbase\service\weixin\lib\Xml;
 use phpbase\lib\curl\Curl;
 /**
  * Class Request
@@ -73,7 +74,7 @@ class Request
      */
     public function sendUnifiedOrder($postXml)
     {
-        return $this->curl->post('/pay/unifiedorder', $postXml);
+        return $this->getResponse($this->curl->post('/pay/unifiedorder', $postXml));
     }
 
     /**
@@ -84,15 +85,16 @@ class Request
      */
     public function sendRedPacketNormal($postXml, $curlOptions = [])
     {
-        return $this->curl->post('/mmpaymkttransfers/sendredpack', $postXml, $curlOptions);
+        return $this->getResponse($this->curl->post('/mmpaymkttransfers/sendredpack', $postXml, $curlOptions));
     }
 
     /**
-     * 对返回结果进行判断是否成功/失败
+     * 返回结果
      * @param mixed $result
      * @return bool|string|array
      */
     protected function getResponse($result)
     {
+        return Xml::decode($result);
     }
 }
