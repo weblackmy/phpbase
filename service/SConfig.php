@@ -66,28 +66,16 @@ class SConfig
      * 微信模板参数
      * @return array
      */
-    public static function getWxMp()
+    public static function getWeixin()
     {
-        return Arrays::get(self::$config, 'wxMp', [
+        return Arrays::get(self::$config, 'weixin', [
             'appId' => '',
             'appSecret' => '',
             'token' => '',
             'encodingAESKey' => '',
-        ]);
-    }
-
-    /**
-     * 微信支付模板参数
-     * @return mixed
-     */
-    public static function getWxPay()
-    {
-        return Arrays::get(self::$config, 'wxPay', [
-            'payApi' => '',
-            'appId' => '',//绑定支付的APPID
             'mchId' => '',//商户号
             'key' => '',//商户支付密钥
-            'sslCert' => '',
+            'sslCert' => '',//证书路径
             'sslKey' => '',
             'sslCa' => '',
         ]);

@@ -64,7 +64,18 @@ class Request
     {
         return $this->errMsg;
     }
-    /*************************************************** 微信支付-红包 **************************************************/
+
+    /*************************************************** 微信支付 **************************************************/
+    /**
+     * 生成预支付交易单
+     * @param string $postXml 订单参数
+     * @return bool|array
+     */
+    public function sendUnifiedOrder($postXml)
+    {
+        return $this->curl->post('/pay/unifiedorder', $postXml);
+    }
+
     /**
      * 发送普通红包
      * @param string $postXml 红包参数,需要转换为xml
@@ -83,6 +94,5 @@ class Request
      */
     protected function getResponse($result)
     {
-        
     }
 }

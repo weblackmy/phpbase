@@ -1,6 +1,8 @@
 <?php
 namespace phpbase\service\weixin\pay;
 
+use phpbase\service\SConfig;
+
 /**
  * Class BasePay 微信支付基础类
  * @author qian lei <weblackmy@gmail.com>
@@ -8,6 +10,9 @@ namespace phpbase\service\weixin\pay;
  */
 class Base
 {
+    /**
+     * @var string
+     */
     const payPai = 'https://api.mch.weixin.qq.com';
 
     /**
@@ -30,7 +35,7 @@ class Base
      */
     public function __construct()
     {
-        $this->config = $this->getConfig();
+        $this->config = SConfig::getWeixin();
         $this->request = new Request($this->config);
         $this->request->setCurlOptions([
             'urlPrefix' => self::payPai,
@@ -94,19 +99,5 @@ class Base
             'sslKey' => $this->config['sslKey'],
             'sslCa' => $this->config['sslCa'],
         ];
-    }
-
-    /**
-     * 微信基础配置
-     * @return array
-     */
-    protected function getConfig()
-    {
-        if (!$this->config) {
-            if (file_exists(__DIR__ . '/config/pay.php')) {
-                $this->config = require __DIR__ . '/config/pay.php';
-            }
-        }
-        return $this->config;
     }
 }

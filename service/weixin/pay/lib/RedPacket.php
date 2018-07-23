@@ -1,7 +1,7 @@
 <?php
 namespace phpbase\lib\weixin\pay\lib;
 
-use phpbase\service\weixin\mp\Base;
+use phpbase\service\weixin\pay\Base;
 use phpbase\service\weixin\lib\Xml;
 /**
  * 微信支付红包

@@ -44,7 +44,7 @@ class Base
      */
     public function __construct($initAccessToken = true)
     {
-        $this->config = SConfig::getWxMp();
+        $this->config = SConfig::getWeixin();
         $this->accessTokenCacheKey = Arrays::get($this->config, 'accessTokenCacheKey', 'wxAccessToken');
         $this->request = new Request($this->config);
         $this->request->setCurlOptions([
