@@ -53,4 +53,41 @@ class MpOrder extends Base
             'paySign' => $this->getSign(),
         ];
     }
+
+    /**
+     * 支付结果通知
+     * @param string $xmlData
+     * @param array $callback 回调函数
+     * @return function
+     */
+    public function payNotify($xmlData, $callback)
+    {
+        try {
+            $this->values = Xml::decode($xmlData);
+            $this->CheckSign();
+        } catch (\Exception $e) {
+            Msg::setMsg($e->getMessage());
+            return false;
+        }
+        return call_user_func($callback, $this->values);
+    }
+
+    /**
+     * 回复通知
+     * @param array $param
+     * @param bool $needSign 是否需要签名输出
+     * @return string
+     */
+    public function replyNotify($param, $needSign = true)
+    {
+        $this->values = [
+            'return_code' => $param['return_code'],
+            'return_msg' => $param['return_msg'],
+        ];
+
+        if ($needSign == true && $this->getReturn_code() == "SUCCESS") {
+            $this->SetSign();
+        }
+        return Xml::encode($this->values);
+    }
 }

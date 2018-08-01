@@ -45,17 +45,62 @@ class Base
     /**
      * @return string
      */
+    public function setSign()
+    {
+        return $this->values['sign'] = $this->makeSign();
+    }
+
+    /**
+     * @return string
+     */
     public function getSign()
     {
         return $this->values['sign'];
     }
 
     /**
+     * 设置错误码 FAIL 或者 SUCCESS
+     * @param string $return_code
+     */
+    public function setReturn_code($return_code)
+    {
+        $this->values['return_code'] = $return_code;
+    }
+
+    /**
+     * 获取错误码 FAIL 或者 SUCCESS
+     * @return string $return_code
+     */
+    public function getReturn_code()
+    {
+        return $this->values['return_code'];
+    }
+
+    /**
+     * 设置错误信息
+     * @param string $return_msg
+     */
+    public function setReturn_msg($return_msg)
+    {
+        $this->values['return_msg'] = $return_msg;
+    }
+
+    /**
+     * 获取错误信息
      * @return string
      */
-    public function setSign()
+    public function getReturn_msg()
     {
-        return $this->values['sign'] = $this->makeSign();
+        return $this->values['return_msg'];
+    }
+
+    /**
+     * 判断签名，详见签名生成算法是否存在
+     * @return bool
+     **/
+    public function isSignSet()
+    {
+        return array_key_exists('sign', $this->values);
     }
 
     /**
@@ -103,6 +148,24 @@ class Base
         $string = md5($string);
         //签名步骤四：所有字符转为大写
         return strtoupper($string);
+    }
+
+    /**
+     * 检测签名
+     * @return bool
+     * @throws \Exception
+     */
+    protected function CheckSign()
+    {
+        if(!$this->isSignSet()){
+            throw new \Exception('签名错误');
+        }
+
+        $sign = $this->MakeSign();
+        if($this->GetSign() == $sign){
+            return true;
+        }
+        throw new \Exception('签名错误');
     }
 
     /**
