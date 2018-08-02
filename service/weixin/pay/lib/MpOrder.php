@@ -55,6 +55,22 @@ class MpOrder extends Base
     }
 
     /**
+     * 查询订单
+     */
+    public function orderQuery($param)
+    {
+        $this->values = [
+            'appid' => $this->config['appId'],
+            'mch_id' => $this->config['mchId'],
+            'out_trade_no' => $param['tradeNo'],
+            'nonceStr' => $this->getNonceStr(),
+            'signType' => 'MD5',
+        ];
+        $this->setSign();
+        return $this->request->sendOrderQuery(Xml::encode($this->values));
+    }
+
+    /**
      * 支付结果通知
      * @param string $xmlData
      * @param array $callback 回调函数

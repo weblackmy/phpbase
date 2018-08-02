@@ -77,6 +77,11 @@ class Request
         return $this->getResponse($this->curl->post('/pay/unifiedorder', $postXml));
     }
 
+    public function sendOrderQuery($postXml)
+    {
+        return $this->getResponse($this->curl->post('/pay/orderquery', $postXml));
+    }
+
     /**
      * 发送普通红包
      * @param string $postXml 红包参数,需要转换为xml
