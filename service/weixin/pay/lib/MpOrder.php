@@ -81,8 +81,8 @@ class MpOrder extends Base
     public function replyNotify($param, $needSign = true)
     {
         $this->values = [
-            'return_code' => $param['return_code'],
-            'return_msg' => $param['return_msg'],
+            'return_code' => $param['returnCode'],
+            'return_msg' => $param['returnMsg'],
         ];
 
         if ($needSign == true && $this->getReturn_code() == "SUCCESS") {
