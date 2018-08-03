@@ -62,9 +62,9 @@ class MpOrder extends Base
         $this->values = [
             'appid' => $this->config['appId'],
             'mch_id' => $this->config['mchId'],
+            'transaction_id' => $param['transactionId'],
             'out_trade_no' => $param['tradeNo'],
-            'nonceStr' => $this->getNonceStr(),
-            'signType' => 'MD5',
+            'nonce_str' => $this->getNonceStr(),
         ];
         $this->setSign();
         return $this->request->sendOrderQuery(Xml::encode($this->values));
