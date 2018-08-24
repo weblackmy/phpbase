@@ -70,4 +70,24 @@ class Date
         $day = $day < 0 ? 0 : ($day > 6 ? 6 : $day);
         return date('Y-m-d', strtotime("-{$n} day", strtotime($date)) + 86400 * $day);
     }
+
+    /**
+     * 获取上月的第一天
+     * @param string $date
+     * @return string
+     */
+    public static function getFirstDayOfLastMonth($date = '')
+    {
+        return date('Y-m-d', mktime(0, 0, 0, date('n', strtotime($date)) - 1, 1));
+    }
+
+    /**
+     * 获取上月最后一天
+     * @param string $date
+     * @return string
+     */
+    public static function getLastDayOfLastMonth($date = '')
+    {
+        return date('Y-m-d', mktime(0, 0, 0, date('n', strtotime($date)), 0));
+    }
 }
