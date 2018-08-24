@@ -73,21 +73,21 @@ class Date
 
     /**
      * 获取上月的第一天
-     * @param string $date
+     * @param int|null $ts unix timestamp
      * @return string
      */
-    public static function getFirstDayOfLastMonth($date = '')
+    public static function getFirstDayOfLastMonth($ts = null)
     {
-        return date('Y-m-d', mktime(0, 0, 0, date('n', strtotime($date)) - 1, 1));
+        return date('Y-m-d', mktime(0, 0, 0, date('n', $ts) - 1, 1));
     }
 
     /**
      * 获取上月最后一天
-     * @param string $date
+     * @param int|null $ts
      * @return string
      */
-    public static function getLastDayOfLastMonth($date = '')
+    public static function getLastDayOfLastMonth($ts = null)
     {
-        return date('Y-m-d', mktime(0, 0, 0, date('n', strtotime($date)), 0));
+        return date('Y-m-d', mktime(0, 0, 0, date('n', $ts), 0));
     }
 }
