@@ -395,7 +395,7 @@ class Arrays
     /**
      * 判断是否为空数组
      * @param array $arr
-     * @return array
+     * @return bool
      */
     public static function isArrayNull($arr)
     {
