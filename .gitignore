@@ -8,3 +8,5 @@
 lib/weixin/config/mp.php
 lib/weixin/config/pay.php
 lib/weixin/runtime/
+
+vendor/
