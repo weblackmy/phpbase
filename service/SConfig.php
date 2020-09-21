@@ -11,7 +11,7 @@ use phpbase\lib\util\Arrays;
 class SConfig
 {
     /**
-     * @var array 
+     * @var array
      */
     private static $config = [];
 
@@ -78,6 +78,15 @@ class SConfig
             'sslCert' => '',//证书路径
             'sslKey' => '',
             'sslCa' => '',
+        ]);
+    }
+
+    public static function getAliCloud()
+    {
+        return Arrays::get(self::$config, 'aliCloud', [
+            'accessKeyId' => '',
+            'accessSecret' => '',
+            'regionId' => '',
         ]);
     }
 }

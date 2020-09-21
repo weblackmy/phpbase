@@ -4,8 +4,16 @@ require ('../autoload.php');
  * User: qianlei
  * Date: 03/08/2017
  */
-use phpbase\service\sms\Sms;
+use phpbase\service\aliyun\Sms;
+use phpbase\service\SConfig;
 
-//set default driver
-Sms::$defaultDriver = 'ChuangLan';
-(new Sms)->sendText('15850676621', '测试', '测试');
+
+SConfig::set('aliCloud', [
+    'accessKeyId' => '',
+    'accessSecret' => '',
+    'regionId' => '',
+]);
+Sms::init()
+    ->setSignName('')
+    ->setTemplateCode('')
+    ->sendSms('15850676621', ['code' => '123456']);
