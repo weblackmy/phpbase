@@ -9,6 +9,7 @@
 		"qiniu/php-sdk": "^7.2",
 		"phpmailer/phpmailer": "^6.0",
 		"phpoffice/phpexcel": "^1.8",
-		"alibabacloud/client": "^1.5"
+		"alibabacloud/client": "^1.5",
+		"ext-json": "*"
 	}
 }

@@ -1,19 +1,23 @@
 <?php
 namespace phpbase\service\weixin\pay;
 
+use phpbase\lib\curl\Curl;
+use phpbase\lib\log\LogX;
+use phpbase\lib\util\Arrays;
 use phpbase\service\SConfig;
+use phpbase\service\weixin\lib\Xml;
 
 /**
  * Class BasePay 微信支付基础类
  * @author qian lei <weblackmy@gmail.com>
  * @package phpbase\lib\weixin\pay
  */
-class Base
+abstract class Base
 {
     /**
      * @var string
      */
-    const payPai = 'https://api.mch.weixin.qq.com';
+    const unifiedOrderApi = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
     /**
      * @var array 微信支付相关配置
@@ -26,9 +30,9 @@ class Base
     protected $values = [];
 
     /**
-     * @var Request
+     * @var Curl
      */
-    protected $request;
+    protected $curl;
 
     /**
      * Base constructor.
@@ -36,10 +40,7 @@ class Base
     public function __construct()
     {
         $this->config = SConfig::getWeixin();
-        $this->request = new Request($this->config);
-        $this->request->setCurlOptions([
-            'urlPrefix' => self::payPai,
-        ]);
+        $this->curl = new Curl();
     }
 
     /**
@@ -47,7 +48,9 @@ class Base
      */
     public function setSign()
     {
-        return $this->values['sign'] = $this->makeSign();
+        $this->values['sign_type'] = 'MD5';
+        $this->values['sign'] = $this->makeSign();
+        return $this;
     }
 
     /**
@@ -56,51 +59,6 @@ class Base
     public function getSign()
     {
         return $this->values['sign'];
-    }
-
-    /**
-     * 设置错误码 FAIL 或者 SUCCESS
-     * @param string $return_code
-     */
-    public function setReturn_code($return_code)
-    {
-        $this->values['return_code'] = $return_code;
-    }
-
-    /**
-     * 获取错误码 FAIL 或者 SUCCESS
-     * @return string $return_code
-     */
-    public function getReturn_code()
-    {
-        return $this->values['return_code'];
-    }
-
-    /**
-     * 设置错误信息
-     * @param string $return_msg
-     */
-    public function setReturn_msg($return_msg)
-    {
-        $this->values['return_msg'] = $return_msg;
-    }
-
-    /**
-     * 获取错误信息
-     * @return string
-     */
-    public function getReturn_msg()
-    {
-        return $this->values['return_msg'];
-    }
-
-    /**
-     * 判断签名，详见签名生成算法是否存在
-     * @return bool
-     **/
-    public function isSignSet()
-    {
-        return array_key_exists('sign', $this->values);
     }
 
     /**
@@ -143,7 +101,7 @@ class Base
         ksort($this->values);
         $string = $this->ToUrlParams();
         //签名步骤二：在string后加入KEY
-        $string = $string . "&key=".$this->config['key'];
+        $string = $string . "&key=".$this->config['appKey'];
         //签名步骤三：MD5加密
         $string = md5($string);
         //签名步骤四：所有字符转为大写
@@ -157,10 +115,9 @@ class Base
      */
     protected function CheckSign()
     {
-        if(!$this->isSignSet()){
-            throw new \Exception('签名错误');
+        if(!Arrays::get($this->values, 'sign')){
+            throw new \Exception('签名为空');
         }
-
         $sign = $this->MakeSign();
         if($this->GetSign() == $sign){
             return true;
@@ -178,5 +135,25 @@ class Base
             'sslKey' => $this->config['sslKey'],
             'sslCa' => $this->config['sslCa'],
         ];
+    }
+
+    /**
+     * 返回结果
+     * @param mixed $response
+     * @return bool|string|array
+     */
+    protected function getResponse($response)
+    {
+        LogX::debug(sprintf('wxpay get raw response %s', $response));
+        try {
+            $response = Xml::decode($response);
+            if (Arrays::get($response, 'return_code') == 'SUCCESS') {
+                return $response;
+            }
+            LogX::error(sprintf('wxpay response error %s', Arrays::get($response, 'err_code_des')));
+        } catch (\Exception $e) {
+            LogX::error(sprintf('wxpay decode response error %s', $e->getMessage()));
+        }
+        return false;
     }
 }

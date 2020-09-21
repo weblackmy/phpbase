@@ -70,14 +70,12 @@ class SConfig
     {
         return Arrays::get(self::$config, 'weixin', [
             'appId' => '',
+            //商户支付密钥
+            'appKey' => '',
+            //公账号secret(仅JSAPI支付的时候需要配置)
             'appSecret' => '',
-            'token' => '',
-            'encodingAESKey' => '',
-            'mchId' => '',//商户号
-            'key' => '',//商户支付密钥
-            'sslCert' => '',//证书路径
-            'sslKey' => '',
-            'sslCa' => '',
+            //商户号
+            'mchId' => '',
         ]);
     }
 
