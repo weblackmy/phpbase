@@ -105,16 +105,16 @@ class Sms
             if (Arrays::get($result, 'Code') == 'OK') {
                 return true;
             }
-            Log::info('phpbase', [
+            Log::error('phpbase', [
                 'msg' => 'send sms failed',
                 'mobile' => $mobile,
                 'templateCode' => $this->templateCode,
                 'result' => $result,
             ]);
         } catch (ClientException $e) {
-            Log::info('phpbase', $e->getMessage());
+            Log::error('phpbase', $e->getMessage());
         } catch (ServerException $e) {
-            Log::info('phpbase', $e->getMessage());
+            Log::error('phpbase', $e->getMessage());
         }
         return false;
     }

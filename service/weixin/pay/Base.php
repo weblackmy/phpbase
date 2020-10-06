@@ -2,7 +2,7 @@
 namespace phpbase\service\weixin\pay;
 
 use phpbase\lib\curl\Curl;
-use phpbase\lib\log\LogX;
+use phpbase\lib\log\Log;
 use phpbase\lib\util\Arrays;
 use phpbase\service\SConfig;
 use phpbase\service\weixin\lib\Xml;
@@ -144,15 +144,15 @@ abstract class Base
      */
     protected function getResponse($response)
     {
-        LogX::debug(sprintf('wxpay get raw response %s', $response));
+        Log::debug('phpbase', sprintf('wxpay get raw response %s', $response));
         try {
             $response = Xml::decode($response);
             if (Arrays::get($response, 'return_code') == 'SUCCESS') {
                 return $response;
             }
-            LogX::error(sprintf('wxpay response error %s', Arrays::get($response, 'err_code_des')));
+            Log::error('phpbase', sprintf('wxpay response error %s', Arrays::get($response, 'err_code_des')));
         } catch (\Exception $e) {
-            LogX::error(sprintf('wxpay decode response error %s', $e->getMessage()));
+            Log::error('phpbase', sprintf('wxpay decode response error %s', $e->getMessage()));
         }
         return false;
     }
