@@ -150,7 +150,6 @@ class Log
     /**
      * 写入文件
      * @return bool|int
-     * @throws \Exception
      */
     public static function flush()
     {
@@ -197,8 +196,7 @@ class Log
      */
     private static function log($key, $data, $logLevel)
     {
-        $key = self::$mkdirRecursive ? $key : str_replace('/', '-', $key);
-        $logFile = self::$logDir . '/'. trim($key, '/') . '_'. date('Y-m-d') . self::$logFileExt;
+        $logFile = self::$logDir . '/'. date('Y-m-d') . self::$logFileExt;
         if (!isset(self::$logData[$logFile])) {
             self::$logData[$logFile] = [];
         }
@@ -207,6 +205,7 @@ class Log
         $log .= self::formatStr(getmypid());
         $log .= self::formatStr($logFile);
         $log .= self::formatStr($logLevel);
+        $log .= self::formatStr($key);
         $log .= is_string($data) ? $data : json_encode($data, JSON_UNESCAPED_UNICODE);
         self::$logData[$logFile][] = $log;
 

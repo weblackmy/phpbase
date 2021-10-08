@@ -45,7 +45,7 @@ class Message extends Base
             }
             return call_user_func_array([$this, $method], [$xml]);
         } catch (\Exception $e) {
-            Log::error('weixin-parseMessage', $e->getMessage());
+            Log::error('phpbase', $e->getMessage());
             return false;
         }
     }

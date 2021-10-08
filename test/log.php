@@ -10,6 +10,3 @@ Log::setLogDir('/data/log/fykc');
 Log::setMkdirRecursive(false);
 //Log::setAutoFlush(false);
 
-Log::info('order', ['a' => 'a']);
-//Log::flush();
-

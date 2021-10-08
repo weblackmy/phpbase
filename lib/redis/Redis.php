@@ -55,7 +55,7 @@ class Redis
             return self::$instance->execCommand($name, $arguments);
         } catch (\RedisException $e) {
             self::$instance->close();
-            Log::error('redis', [
+            Log::error('phpbase', [
                 'userError' => $e->getMessage(),
                 'redisError' => self::$instance->redis->getLastError()
             ]);
