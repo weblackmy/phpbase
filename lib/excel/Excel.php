@@ -1,13 +1,14 @@
 <?php
 namespace phpbase\lib\excel;
 
+use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Worksheet;
 use phpbase\lib\util\File;
 use phpbase\lib\util\Msg;
 
 /**
- * Class Curl
+ * Class Excel
  * @package phpbase\lib\excel
  * @author qian lei
  */
@@ -17,6 +18,14 @@ class Excel
      * @var array
      */
     private static $ext = ['xls', 'xlsx'];
+
+    /**
+     * @return PHPExcel
+     */
+    public static function getPHPExcel()
+    {
+        return new PHPExcel();
+    }
 
     /**
      * 读取Excel文件
@@ -59,5 +68,54 @@ class Excel
             Msg::setMsg($e->getMessage());
             return false;
         }
+    }
+
+    /**
+     * @param array $header
+     * @param array $data
+     * @param string $output
+     * @return mixed
+     */
+    public static function write($header, $data, $output)
+    {
+        try {
+            $excel = self::getPHPExcel();
+            $sheet = $excel->setActiveSheetIndex(0);
+        } catch (\Exception $e) {
+            Msg::setMsg($e->getMessage());
+            return false;
+        }
+
+        for ($i = 0, $max = count($header); $i < $max; $i++) {
+            $sheet->setCellValue(self::getCell($i + 1, 1), $header[$i]);
+        }
+
+        for ($i = 0, $max = count($data); $i < $max; $i++) {
+            // 键值对数组转换成数字索引数组
+            $rowData = isset($data[$i][0]) ? $data[$i] : array_values($data[$i]);
+            foreach ($rowData as $k => $v) {
+                $sheet->setCellValue(self::getCell($k + 1, $i + 2), $v);
+            }
+        }
+
+        try {
+            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+            $objWriter->save($output);
+        } catch (\Exception $e) {
+            Msg::setMsg('write excel failed ' . $e->getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param int $i
+     * @param int $j
+     * @return string
+     */
+    private static function getCell($i, $j)
+    {
+        return chr(64 + intval($i)) . strval($j);
     }
 }
